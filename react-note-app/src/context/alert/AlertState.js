@@ -1,7 +1,7 @@
 import React, {useReducer} from 'react'
 import { AlertContext } from './alertContext'
 import { alertReducer } from './alertReducer'
-import { SHOW_ALERT,HIDE_ALERT } from "../types"
+import { SHOW_ALERT,HIDE_ALERT,SHOW_ALERT_REMOVE } from "../types"
 
 export const AlertState = ({children}) => {
     const [state, dispatch] = useReducer(alertReducer, {visible: false})
@@ -13,11 +13,17 @@ export const AlertState = ({children}) => {
         })
     }
 
-    const hide = () => dispatch({type: HIDE_ALERT})
+    const show_remove = (text, type = 'warning') => {
+        dispatch({
+            type: SHOW_ALERT_REMOVE,
+            payload: {text,type}
+        })
+    }
 
+    const hide = () => dispatch({type: HIDE_ALERT})
     return (
         <AlertContext.Provider value={{
-            show, hide, 
+            show, hide, show_remove,
             alert: state
         }}>
             {children}
